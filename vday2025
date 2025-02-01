@@ -1,0 +1,122 @@
+import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+
+const questions = {
+  Surface: [
+    "What was your first impression of me?",
+    "What’s a little thing I do that makes you smile?",
+    "If we had to describe our relationship in three words, what would they be?",
+    "What’s your favorite memory of us so far?",
+    "What’s your love language, and do you think I express it well?",
+    "If we could teleport anywhere right now, where would we go?",
+    "What’s a song that reminds you of us?",
+    "What’s one thing you love about our virtual dates?",
+    "What’s a silly habit of mine that you find cute?",
+    "If we were a movie couple, which one would we be?",
+    "What’s your idea of a perfect date night?",
+    "What’s the best compliment you’ve ever received from me?",
+    "What’s one thing you’ve learned about love from our relationship?",
+    "What was your first thought when we met?",
+    "If you could relive one of our moments, which one would it be?",
+    "What’s something we should do together more often?",
+    "What do you think is my most attractive quality?",
+    "What’s one quirky thing you love about me?",
+    "What’s a fun tradition we should start?",
+    "If we wrote a book about our love story, what would the title be?"
+  ],
+  Depth: [
+    "When do you feel most loved by me?",
+    "What’s something I do that makes you feel safe?",
+    "What’s a fear you have about love?",
+    "How do you think we’ve grown as a couple since we met?",
+    "What’s something you’ve never told me but always wanted to?",
+    "What does love mean to you?",
+    "What’s a past experience that shaped the way you love today?",
+    "If you could relive one moment with me, what would it be?",
+    "What do you think is our biggest strength as a couple?",
+    "How do you know I truly care about you?",
+    "What’s a challenge we’ve overcome together?",
+    "How do you think we can support each other better?",
+    "What’s an insecurity you have in relationships?",
+    "What’s a way I can make you feel more appreciated?",
+    "What’s the best way I can comfort you when you’re upset?",
+    "What’s a lesson love has taught you?",
+    "What do you think makes a relationship last?",
+    "What’s one of your favorite things about our communication?",
+    "What’s something you’re grateful for in our relationship?",
+    "How can we keep our relationship exciting and fresh?"
+  ],
+  Soul: [
+    "What’s a fear you have about our relationship, and why?",
+    "What’s something you admire about me that I might not realize?",
+    "How have I changed your perspective on love?",
+    "What’s something you struggle with in relationships?",
+    "What’s one thing I do that makes you feel truly seen?",
+    "If today was our last day together, what would you want me to know?",
+    "What’s a wound from your past that still affects you?",
+    "How do you think we handle conflicts, and what could we do better?",
+    "What’s the hardest thing about being in a long-distance relationship?",
+    "How can we stay emotionally connected despite the distance?",
+    "What’s a moment in our relationship that made you feel deeply connected?",
+    "What’s an emotional barrier you still struggle with?",
+    "What’s a deep personal truth you haven’t shared with me yet?",
+    "What’s something about love that scares you?",
+    "What’s a part of yourself you’re still working on?",
+    "How do you see our future together?",
+    "What’s the most meaningful thing I’ve ever said to you?",
+    "If you could ask me anything without fear, what would it be?",
+    "What’s a dream you have for us as a couple?"
+  ]
+};
+
+export default function Game() {
+  const [currentLevel, setCurrentLevel] = useState("Surface");
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [history, setHistory] = useState([]);
+
+  const getNewQuestion = () => {
+    const randomIndex = Math.floor(Math.random() * questions[currentLevel].length);
+    const newQuestion = questions[currentLevel][randomIndex];
+    setCurrentQuestion(newQuestion);
+    setHistory([...history, newQuestion]);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-r from-pink-300 to-purple-400">
+      <motion.div
+        className="text-center mb-4"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <h1 className="text-4xl font-bold text-white">A&A Diving Deeper 💖</h1>
+        <p className="text-white mt-2">created with love from AV</p>
+      </motion.div>
+      <div className="flex gap-2 mb-4">
+        <Button onClick={() => setCurrentLevel("Surface")} className={`px-4 py-2 rounded-lg ${currentLevel === "Surface" ? "bg-red-500 text-white" : "bg-white text-red-500"}`}>Surface</Button>
+        <Button onClick={() => setCurrentLevel("Depth")} className={`px-4 py-2 rounded-lg ${currentLevel === "Depth" ? "bg-red-500 text-white" : "bg-white text-red-500"}`}>Depth</Button>
+        <Button onClick={() => setCurrentLevel("Soul")} className={`px-4 py-2 rounded-lg ${currentLevel === "Soul" ? "bg-red-500 text-white" : "bg-white text-red-500"}`}>Soul</Button>
+      </div>
+      <Card className="p-6 bg-white shadow-lg rounded-2xl text-center max-w-lg">
+        <CardContent>
+          {currentQuestion ? (
+            <motion.p
+              key={currentQuestion}
+              className="text-lg font-medium text-gray-800"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {currentQuestion}
+            </motion.p>
+          ) : (
+            <p className="text-lg text-gray-500">Press start to get your first question!</p>
+          )}
+        </CardContent>
+      </Card>
+      <Button onClick={getNewQuestion} className="mt-4 px-6 py-2 text-lg bg-red-500 text-white rounded-full shadow-lg">
+        {currentQuestion ? "Next Question" : "Start Game"}
+      </Button>
+    </div>
+  );
+}
